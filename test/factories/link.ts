@@ -4,6 +4,7 @@ import { Link } from "@/types/link";
 
 export const linkFactory = Factory.define<Link>(({ sequence }) => ({
   createdAt: Timestamp.fromDate(new Date()),
+  updatedAt: Timestamp.fromDate(new Date()),
   id: sequence.toString(),
   to: "/example",
   expiresAt: null,
