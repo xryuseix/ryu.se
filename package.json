@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "deploy": "yarn build && firebase deploy --except functions",
+    "deploy": "yarn build && VITE_EMULATORS=false firebase deploy --except functions",
     "test": "vitest run",
     "emulators:start": "firebase emulators:start",
     "emulators:test": "firebase emulators:exec --only firestore 'yarn test'"
