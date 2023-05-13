@@ -14,8 +14,8 @@ service cloud.firestore {
     }
 
     match /links/{messageId} {
-      allow read, create: if isOwn(request.resource.data.senderId);
-      allow update, delete: if isOwn(resource.data.senderId);
+      allow read, create: if isLoggedIn();
+      allow update, delete: if isLoggedIn();
     }
   }
 }

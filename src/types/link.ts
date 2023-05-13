@@ -2,6 +2,7 @@ import { Timestamp, WithId } from "@/lib/firebase";
 
 export type LinkDocumentData = {
   createdAt: Timestamp;
+  updatedAt: Timestamp;
   to: string;
   expiresAt: Timestamp | null;
   private: boolean;
