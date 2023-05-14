@@ -8,6 +8,7 @@ export const App = () => {
       <h1>URL shortener</h1>
       <div>
         <LinkForm />
+        <hr />
         <Links />
         <Logs />
       </div>

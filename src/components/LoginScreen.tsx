@@ -3,7 +3,6 @@ import styles from "./LoginScreen.module.css";
 
 export const LoginScreen = () => {
   const { signInWithGoogle } = useAuth();
-  console.log("AA")
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>ログインしてください</h1>
