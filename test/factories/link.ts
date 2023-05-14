@@ -3,11 +3,11 @@ import { Timestamp } from "firebase/firestore";
 import { Link } from "@/types/link";
 
 export const linkFactory = Factory.define<Link>(({ sequence }) => ({
-  createdAt: Timestamp.fromDate(new Date()),
-  updatedAt: Timestamp.fromDate(new Date()),
   id: sequence.toString(),
+  created: Timestamp.fromDate(new Date()),
+  modified: Timestamp.fromDate(new Date()),
+  from: "/test",
   to: "/example",
-  expiresAt: null,
-  private: false,
+  expires: null,
   remarks: "テスト用のリンクです。",
 }));
