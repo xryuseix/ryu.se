@@ -1,19 +1,20 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
-import {onRequest} from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
+import * as functions from "firebase-functions/v2";
 
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
-
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+export const main = functions.https.onRequest(
+  {
+    region: "asia-northeast1",
+    memory: "512MiB",
+    timeoutSeconds: 15,
+    maxInstances: 10,
+  },
+  (request: functions.https.Request, response) => {
+    logger.info(`request: ${request}`, { structuredData: true });
+    if (request.path == "/") {
+      response.redirect("ryuse.dev");
+    } else {
+      // TODO: ref database
+      response.redirect(`https://example.com${request.path}`);
+    }
+  }
+);
