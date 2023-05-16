@@ -9,7 +9,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { getConverter, serverTimestamp } from "@/lib/firebase";
-import type { LinkDocumentData } from "@/types/link";
+import type { LinkDocumentData } from "@/../functions/src/shared/types/link";
 
 export const collectionName = "links";
 
@@ -28,6 +28,7 @@ export const setLink = async (
 };
 
 export const addLink = async (
+  userId: string,
   from: string,
   to: string,
   expires: Timestamp | null,
@@ -38,6 +39,7 @@ export const addLink = async (
   return setLink(linkRef, {
     created: serverTimestamp(),
     modified: serverTimestamp(),
+    userId,
     from,
     to,
     expires: expires ?? null,

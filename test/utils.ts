@@ -4,7 +4,8 @@ import {
 } from "@firebase/rules-unit-testing";
 import { readFileSync } from "fs";
 import firebase from "firebase/compat/app";
-import { getConverter, WithId } from "@/lib/firebase";
+import { getConverter } from "@/lib/firebase";
+import { WithId } from "@/../functions/src/shared/types/firebase";
 import { DocumentData } from "firebase/firestore";
 
 let testEnv: RulesTestEnvironment;

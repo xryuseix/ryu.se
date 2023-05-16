@@ -1,7 +1,7 @@
 import { format, set } from "date-fns";
 import { useUsers } from "@/contexts/UsersContext";
 import { LoadingScreen } from "./LoadingScreen";
-import { Link as LinkType } from "@/types/link";
+import { Link as LinkType } from "@/../functions/src/shared/types/link";
 import { Timestamp } from "firebase/firestore";
 import { useState, ChangeEvent } from "react";
 
