@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: yarn && yarn global add firebase-tools
-      - run: yarn build
+      - run: VITE_EMULATORS=false yarn build
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
