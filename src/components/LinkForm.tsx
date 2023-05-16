@@ -5,16 +5,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Timestamp } from "firebase/firestore";
 
 export const LinkForm = () => {
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("");
   const [expires, setExpires] = useState<Timestamp | null>(null);
   const [remarks, setRemarks] = useState<string | null>(null);
 
   const handleClick = async () => {
-    if (!currentUser || !from || !to) return;
+    if (!user || !from || !to) return;
 
-    await addLink(from, to, expires, remarks);
+    await addLink(user.uid, from, to, expires, remarks);
     setFrom("");
     setTo("");
     setExpires(null);

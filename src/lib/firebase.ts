@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { omit } from 'lodash-es';
 import {
-  Timestamp,
   DocumentData,
   QueryDocumentSnapshot,
   SnapshotOptions,
@@ -19,8 +18,7 @@ import {
   signOut as _signOut,
   connectAuthEmulator,
 } from 'firebase/auth';
-
-type WithId<T> = T & { id: string };
+import { WithId, Timestamp } from '@/../functions/src/shared/types/firebase';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -59,5 +57,5 @@ const signInGoogleWithPopup = async () => {
 const signOut = async () => _signOut(getAuth());
 
 
-export type { User, WithId };
-export { Timestamp, getConverter, serverTimestamp, signInGoogleWithPopup, signOut }
+export type { User };
+export { getConverter, serverTimestamp, signInGoogleWithPopup, signOut }

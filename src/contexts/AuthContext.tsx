@@ -7,22 +7,22 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 
 
 type AuthContextValue = {
-  currentUser: User | null;
+  user: User | null;
 };
 
-export const AuthContext = createContext<AuthContextValue>({ currentUser: null });
+export const AuthContext = createContext<AuthContextValue>({ user: null });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [currentUser, loading] = useAuthState();
+  const [user, loading] = useAuthState();
 
   if (loading) return <LoadingScreen />;
-  if (!currentUser) return <LoginScreen />;
+  if (!user) return <LoginScreen />;
 
-  return <AuthContext.Provider value={{ currentUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const signInWithGoogle = useCallback(async () => {
     try {
       const { user } = await signInGoogleWithPopup();
@@ -34,5 +34,5 @@ export const useAuth = () => {
     }
   }, []);
 
-  return { currentUser, signInWithGoogle, signOut };
+  return { user, signInWithGoogle, signOut };
 };

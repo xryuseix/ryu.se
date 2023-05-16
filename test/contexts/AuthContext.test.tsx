@@ -16,8 +16,8 @@ vi.mock("@/hooks/useAuthState", () => {
 describe("AuthContext", async () => {
   const { useAuth, AuthProvider } = await import("@/contexts/AuthContext");
   const AuthedScreen = () => {
-    const { currentUser } = useAuth();
-    return <div>${currentUser?.displayName}でログインできました</div>;
+    const { user } = useAuth();
+    return <div>${user?.displayName}でログインできました</div>;
   };
   const TestComponent = () => (
     <AuthProvider>
