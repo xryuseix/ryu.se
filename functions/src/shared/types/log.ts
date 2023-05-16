@@ -1,12 +1,13 @@
-import { Timestamp, WithId } from './firebase';
+import { WithId } from './firebase';
 
 export type AccessLogDocumentData = {
-  accessedAt: Timestamp;
-  path: string;
-  found: boolean;
-  referer: string | null;
-  userAgent: string | null;
-  ip: string | null;
+  // accessedAt: Timestamp;
+  userId: string | null;
+  from: string;
+  to: string | null;
+  referer: string | undefined;
+  userAgent: string | undefined;
+  ip: string | undefined;
 };
 
 export type AccessLog = WithId<AccessLogDocumentData>;
