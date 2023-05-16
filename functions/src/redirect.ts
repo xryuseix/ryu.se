@@ -1,4 +1,4 @@
-import * as logger from "firebase-functions/logger";
+// import * as logger from "firebase-functions/logger";
 import * as functions from "firebase-functions/v2";
 import { UserDocumentData } from "./shared/types/user";
 import { LinkDocumentData } from "./shared/types/link";
@@ -6,6 +6,7 @@ import { getCollectionData, getDocumentData } from "./lib/firebase";
 import { userRef } from "./lib/user";
 import { linksQuery } from "./lib/link";
 import path from "path";
+import { addLog } from "./lib/log";
 
 export const main = functions.https.onRequest(
   {
@@ -15,17 +16,18 @@ export const main = functions.https.onRequest(
     maxInstances: 10,
   },
   async (request: functions.https.Request, response) => {
-    logger.info(request, { structuredData: true });
     if (request.path == "/") {
       // redirect 301 to ryuse.dev
       response.status(301);
-      response.redirect("https://www.ryuse.dev/index.html");
+      response.redirect("https://ryuse.dev");
       return;
     }
-    // TODO: キャッシュさせない
 
     // https://ryuse.dev/:uId/:lId
     const _uId = path.dirname(request.path).replaceAll("/", "");
+    // fix: admin以外のuseridを短くする
+    // TODO: userIDの存在チェック
+    // expires check
     const uId = _uId === "" ? process.env.ADMIN_GOOGLE_USER_ID ?? "" : _uId;
     const lId = path.basename(request.path);
 
@@ -37,13 +39,12 @@ export const main = functions.https.onRequest(
     );
     if (!link || link.length == 0) {
       response.send(`link ${lId} is not found`);
-      return;
+      response.status(400);
+      addLog(request, uId, lId, null)
+    } else {
+      const to = link[0].to
+      response.redirect(to);
+      addLog(request, uId, lId, to)
     }
-    const to = link[0].to;
-    logger.info(`redirect to ${JSON.stringify(link[0])}`, {
-      structuredData: true,
-    });
-
-    response.redirect(to);
   }
 );
