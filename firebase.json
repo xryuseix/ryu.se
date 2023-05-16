@@ -17,6 +17,10 @@
         "source": "**",
         "function": "main",
         "region": "asia-northeast1"
+      },
+      {
+        "source": "/",
+        "destination": "/index.html"
       }
     ]
   },
