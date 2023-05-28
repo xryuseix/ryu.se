@@ -15,12 +15,12 @@ export const Links = () => {
       <table>
         <thead>
           <tr>
-            <th>作成日</th>
-            <th>送信元URL</th>
-            <th>送信先URL</th>
-            <th>変更日</th>
-            <th>有効期限</th>
-            <th>備考</th>
+            <th>Created</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Updated</th>
+            <th>Expires</th>
+            <th>Remark</th>
             <th>Actions</th>
           </tr>
         </thead>
