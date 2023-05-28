@@ -4,6 +4,8 @@ import { LoadingScreen } from "./LoadingScreen";
 import { Link as LinkType } from "@/../functions/src/shared/types/link";
 import { Timestamp } from "firebase/firestore";
 import { useState, ChangeEvent } from "react";
+import { Tr, Td, Input, IconButton, Flex, Spacer } from "@chakra-ui/react";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 export const Link = ({ link }: { link: LinkType }) => {
   const { usersById, loading } = useUsers();
@@ -52,62 +54,80 @@ export const Link = ({ link }: { link: LinkType }) => {
     alert("TODO: implement");
   };
 
+  const handleDelete = () => {
+    alert("TODO: implement");
+  };
+
   return (
-    <tr>
-      <td>
-        <input value={fromDate(link.created)} disabled />
-      </td>
-      <td>
-        <input
+    <Tr>
+      <Td p={0}>
+        <Input value={fromDate(link.created)} p={0} disabled />
+      </Td>
+      <Td p={0}>
+        <Input
           type="text"
           placeholder={link.from}
           value={from}
           onChange={(event) => {
             handleChange("from", event);
           }}
+          p={0}
         />
-      </td>
-      <td>
-        <input
+      </Td>
+      <Td p={0}>
+        <Input
           type="text"
           placeholder={link.to}
           value={to}
           onChange={(event) => {
             handleChange("to", event);
           }}
+          p={0}
         />
-      </td>
-      <td>
-        <input value={fromDate(link.modified)} disabled />
-      </td>
-      <td>
-        <input
+      </Td>
+      <Td p={0}>
+        <Input value={fromDate(link.modified)} p={0} disabled />
+      </Td>
+      <Td p={0}>
+        <Input
           type="datetime-local"
           placeholder={link.expires ? fromDate(link.expires) : ""}
           value={expires ? fromDate(expires) : ""}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             handleChange("expires", event);
           }}
+          p={0}
         />
-      </td>
-      <td>
-        <input
+      </Td>
+      <Td p={0}>
+        <Flex>
+          <Spacer />
+          <IconButton
+            aria-label="edit"
+            icon={<EditIcon />}
+            onClick={handleUpdate}
+            isDisabled={!changed}
+          />
+          <Spacer />
+          <IconButton
+            aria-label="delete"
+            icon={<DeleteIcon />}
+            onClick={handleDelete}
+          />
+          <Spacer />
+        </Flex>
+      </Td>
+      <Td p={0}>
+        <Input
           type="text"
           placeholder={link.remarks ?? ""}
           value={remarks ?? ""}
           onChange={(event) => {
             handleChange("remarks", event);
           }}
+          p={0}
         />
-      </td>
-      <td>
-        <button onClick={handleUpdate} disabled={!changed}>
-          更新
-        </button>
-        <button onClick={handleUpdate} disabled={!changed}>
-          削除
-        </button>
-      </td>
-    </tr>
+      </Td>
+    </Tr>
   );
 };
