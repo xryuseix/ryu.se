@@ -8,6 +8,7 @@ import { Tr, Td, Input, IconButton, Flex, Spacer } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, CopyIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import { handleCopy } from "@/components/CopyToClipboard";
+import { deleteLink } from "@/lib/link";
 
 export const Link = ({ link }: { link: LinkType }) => {
   const { usersById, loading } = useUsers();
@@ -58,7 +59,7 @@ export const Link = ({ link }: { link: LinkType }) => {
   };
 
   const handleDelete = () => {
-    alert("TODO: implement");
+    deleteLink(link.id);
   };
 
   return (

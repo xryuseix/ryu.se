@@ -3,11 +3,11 @@ import {
   collection,
   query,
   orderBy,
-  DocumentReference,
   doc,
   setDoc,
   Timestamp,
   where,
+  deleteDoc,
 } from "firebase/firestore";
 import { getConverter, serverTimestamp } from "@/lib/firebase";
 import type { LinkDocumentData } from "@/../functions/src/shared/types/link";
@@ -18,14 +18,11 @@ const linksRef = () =>
   );
 
 export const linksQuery = (userId: string | undefined) => {
-  return query(linksRef(), where("userId", "==", userId), orderBy("created", "asc"));
-}
-
-export const setLink = async (
-  ref: DocumentReference,
-  link: LinkDocumentData
-) => {
-  return setDoc(ref, link, { merge: true });
+  return query(
+    linksRef(),
+    where("userId", "==", userId),
+    orderBy("created", "asc")
+  );
 };
 
 export const addLink = async (
@@ -36,8 +33,7 @@ export const addLink = async (
   remarks: string | null
 ) => {
   const linkRef = doc(linksRef());
-
-  return setLink(linkRef, {
+  const link: LinkDocumentData = {
     created: serverTimestamp(),
     modified: serverTimestamp(),
     userId,
@@ -45,5 +41,11 @@ export const addLink = async (
     to,
     expires: expires ?? null,
     remarks,
-  });
+  };
+  return setDoc(linkRef, link, { merge: true });
+};
+
+export const deleteLink = async (linkId: string) => {
+  const linkRef = doc(linksRef(), linkId);
+  return deleteDoc(linkRef);
 };
