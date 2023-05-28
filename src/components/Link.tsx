@@ -5,16 +5,16 @@ import { Link as LinkType } from "@/../functions/src/shared/types/link";
 import { Timestamp } from "firebase/firestore";
 import { useState, ChangeEvent } from "react";
 import { Tr, Td, Input, IconButton, Flex, Spacer } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon, CopyIcon } from "@chakra-ui/icons";
+import { CheckCircleIcon, DeleteIcon, CopyIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import { handleCopy } from "@/components/CopyToClipboard";
-import { deleteLink } from "@/lib/link";
+import { updateLink, deleteLink } from "@/lib/link";
+import { Tooltip } from "@chakra-ui/react";
 
 export const Link = ({ link }: { link: LinkType }) => {
-  const { usersById, loading } = useUsers();
+  const { loading } = useUsers();
   if (loading) return <LoadingScreen />;
 
-  const user = usersById[link.id];
   const toast = useToast();
   const fromDate = (date: Timestamp) =>
     format(date.toDate(), "yyyy-MM-dd HH:mm");
@@ -22,7 +22,6 @@ export const Link = ({ link }: { link: LinkType }) => {
   const [changed, setChanged] = useState<boolean>(false);
   const [from, setFrom] = useState<string>(link.from);
   const [to, setTo] = useState<string>(link.to);
-  const [modified, setModified] = useState<Timestamp>(link.modified);
   const [expires, setExpires] = useState<Timestamp | null>(link.expires);
   const [remarks, setRemarks] = useState<string | null>(link.remarks);
 
@@ -54,8 +53,9 @@ export const Link = ({ link }: { link: LinkType }) => {
   };
 
   const handleUpdate = () => {
-    setModified(Timestamp.now());
-    alert("TODO: implement");
+    if (!changed) return;
+    updateLink(link.id, { from, to, expires, remarks });
+    setChanged(false);
   };
 
   const handleDelete = () => {
@@ -106,24 +106,30 @@ export const Link = ({ link }: { link: LinkType }) => {
       <Td p={0}>
         <Flex>
           <Spacer />
-          <IconButton
-            aria-label="copy"
-            icon={<CopyIcon />}
-            onClick={() => handleCopy(toast, link.to)}
-          />
+          <Tooltip label="Copy the redirect URL to the clipboard" fontSize="md">
+            <IconButton
+              aria-label="copy"
+              icon={<CopyIcon />}
+              onClick={() => handleCopy(toast, link.to)}
+            />
+          </Tooltip>
           <Spacer />
-          <IconButton
-            aria-label="edit"
-            icon={<EditIcon />}
-            onClick={handleUpdate}
-            isDisabled={!changed}
-          />
+          <Tooltip label="Confirm changes" fontSize="md">
+            <IconButton
+              aria-label="edit"
+              icon={<CheckCircleIcon />}
+              onClick={handleUpdate}
+              isDisabled={!changed}
+            />
+          </Tooltip>
           <Spacer />
-          <IconButton
-            aria-label="delete"
-            icon={<DeleteIcon />}
-            onClick={handleDelete}
-          />
+          <Tooltip label="Delete this line" fontSize="md">
+            <IconButton
+              aria-label="delete"
+              icon={<DeleteIcon />}
+              onClick={handleDelete}
+            />
+          </Tooltip>
           <Spacer />
         </Flex>
       </Td>

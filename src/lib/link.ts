@@ -42,6 +42,18 @@ export const addLink = async (
     expires: expires ?? null,
     remarks,
   };
+  return setDoc(linkRef, link);
+};
+
+export const updateLink = async (
+  linkId: string,
+  particalLink: Partial<LinkDocumentData>
+) => {
+  const linkRef = doc(linksRef(), linkId);
+  const link: Partial<LinkDocumentData> = {
+    modified: serverTimestamp(),
+    ...particalLink,
+  };
   return setDoc(linkRef, link, { merge: true });
 };
 
