@@ -17,7 +17,6 @@ export const main = functions.https.onRequest(
   },
   async (request: functions.https.Request, response) => {
     if (request.path == "/") {
-      // redirect 301 to ryuse.dev
       response.status(301);
       response.redirect("https://ryuse.dev");
       return;
@@ -34,17 +33,26 @@ export const main = functions.https.onRequest(
     const user = await getDocumentData<UserDocumentData>(userRef(uId));
 
     // get link document data with linkQuery
-    const link = await getCollectionData<LinkDocumentData>(
+    const links = await getCollectionData<LinkDocumentData>(
       linksQuery(user.id, lId)
     );
-    if (!link || link.length == 0) {
+
+    if (!links || links.length == 0) {
       response.send(`link ${lId} is not found`);
-      response.status(400);
+      response.status(404);
       addLog(request, uId, lId, null);
-    } else {
-      const to = link[0].to;
-      response.redirect(to);
-      addLog(request, uId, lId, to);
     }
+    const link:LinkDocumentData = links[0];
+
+    if(link.expires && link.expires.toMillis() < Date.now()){
+      response.send(`link ${lId} is expired`);
+      response.status(410);
+      addLog(request, uId, lId, null);
+    }
+
+    const to = link.to;
+    response.status(307);
+    response.redirect(to);
+    addLog(request, uId, lId, to);
   }
 );
