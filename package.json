@@ -14,8 +14,12 @@
     "emulators:test": "firebase emulators:exec --only firestore 'yarn test'"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.6.1",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "date-fns": "^2.30.0",
     "firebase": "^9.9.0",
+    "framer-motion": "^10.12.16",
     "lodash-es": "^4.17.21",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
