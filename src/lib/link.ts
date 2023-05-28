@@ -7,18 +7,19 @@ import {
   doc,
   setDoc,
   Timestamp,
+  where,
 } from "firebase/firestore";
 import { getConverter, serverTimestamp } from "@/lib/firebase";
 import type { LinkDocumentData } from "@/../functions/src/shared/types/link";
 
-export const collectionName = "links";
-
-export const linksRef = () =>
+const linksRef = () =>
   collection(getFirestore(), "links").withConverter(
     getConverter<LinkDocumentData>()
   );
 
-export const linksQuery = () => query(linksRef(), orderBy("created", "asc"));
+export const linksQuery = (userId: string | undefined) => {
+  return query(linksRef(), where("userId", "==", userId), orderBy("created", "asc"));
+}
 
 export const setLink = async (
   ref: DocumentReference,

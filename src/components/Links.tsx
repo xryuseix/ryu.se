@@ -2,9 +2,11 @@ import { useCollectionData } from "@/hooks/useCollectionData";
 import { linksQuery } from "@/lib/link";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { Link } from "@/components/Link";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const Links = () => {
-  const [links, loading] = useCollectionData(linksQuery());
+  const { user } = useAuth();
+  const [links, loading] = useCollectionData(linksQuery(user?.uid));
 
   if (loading) return <LoadingScreen />;
 
@@ -19,6 +21,7 @@ export const Links = () => {
             <th>変更日</th>
             <th>有効期限</th>
             <th>備考</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
