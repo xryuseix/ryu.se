@@ -1,6 +1,6 @@
 import { ToastProps } from "@chakra-ui/react";
 
-export const handleCopy = (toast: (_: ToastProps) => {}, value: string) => {
+export const handleCopy = (toast: (_: ToastProps) => void, value: string) => {
   if (navigator.clipboard) {
     return navigator.clipboard.writeText(value).then(() => {
       toast({

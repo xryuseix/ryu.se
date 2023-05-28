@@ -6,10 +6,11 @@ import { Timestamp } from "firebase/firestore";
 import { useState, ChangeEvent } from "react";
 import { Tr, Td, Input, IconButton, Flex, Spacer } from "@chakra-ui/react";
 import { CheckCircleIcon, DeleteIcon, CopyIcon } from "@chakra-ui/icons";
-import { useToast } from "@chakra-ui/react";
-import { handleCopy } from "@/components/CopyToClipboard";
+import { useToast, useDisclosure } from "@chakra-ui/react";
+import { handleCopy } from "@/lib/CopyToClipboard";
 import { updateLink, deleteLink } from "@/lib/link";
 import { Tooltip } from "@chakra-ui/react";
+import { DeleteModal } from "./DeleteModal";
 
 export const Link = ({ link }: { link: LinkType }) => {
   const { loading } = useUsers();
@@ -24,6 +25,7 @@ export const Link = ({ link }: { link: LinkType }) => {
   const [to, setTo] = useState<string>(link.to);
   const [expires, setExpires] = useState<Timestamp | null>(link.expires);
   const [remarks, setRemarks] = useState<string | null>(link.remarks);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleChange = (
     type: "from" | "to" | "expires" | "remarks",
@@ -127,7 +129,7 @@ export const Link = ({ link }: { link: LinkType }) => {
             <IconButton
               aria-label="delete"
               icon={<DeleteIcon />}
-              onClick={handleDelete}
+              onClick={onOpen}
             />
           </Tooltip>
           <Spacer />
@@ -144,6 +146,13 @@ export const Link = ({ link }: { link: LinkType }) => {
           p={0}
         />
       </Td>
+      <DeleteModal
+        isOpen={isOpen}
+        onClose={onClose}
+        from={from}
+        to={to}
+        handleDelete={handleDelete}
+      />
     </Tr>
   );
 };
