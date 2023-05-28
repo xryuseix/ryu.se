@@ -7,7 +7,7 @@ import { useState, ChangeEvent } from "react";
 import { Tr, Td, Input, IconButton, Flex, Spacer } from "@chakra-ui/react";
 import { CheckCircleIcon, DeleteIcon, CopyIcon } from "@chakra-ui/icons";
 import { useToast, useDisclosure } from "@chakra-ui/react";
-import { handleCopy } from "@/lib/CopyToClipboard";
+import { handleCopy } from "@/lib/clipboard";
 import { updateLink, deleteLink } from "@/lib/link";
 import { Tooltip } from "@chakra-ui/react";
 import { DeleteModal } from "./DeleteModal";
@@ -112,7 +112,7 @@ export const Link = ({ link }: { link: LinkType }) => {
             <IconButton
               aria-label="copy"
               icon={<CopyIcon />}
-              onClick={() => handleCopy(toast, link.to)}
+              onClick={() => handleCopy(toast, `https://ryuse.dev/${from}`)}
             />
           </Tooltip>
           <Spacer />
