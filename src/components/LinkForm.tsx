@@ -59,6 +59,9 @@ export const LinkForm = () => {
   };
 
   const handleClick = async () => {
+    if (error.from.condition() || error.to.condition() || error.expires.condition()) {
+      return;
+    }
     await addLink(user.uid, from, to, expires, remarks);
     setFrom("");
     setTo("https://");
