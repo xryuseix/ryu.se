@@ -40,11 +40,11 @@ export const main = functions.https.onRequest(
     if (!link || link.length == 0) {
       response.send(`link ${lId} is not found`);
       response.status(400);
-      addLog(request, uId, lId, null)
+      addLog(request, uId, lId, null);
     } else {
-      const to = link[0].to
+      const to = link[0].to;
       response.redirect(to);
-      addLog(request, uId, lId, to)
+      addLog(request, uId, lId, to);
     }
   }
 );

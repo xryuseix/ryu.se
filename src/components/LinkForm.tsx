@@ -14,9 +14,9 @@ import {
 import { LoginScreen } from "./LoginScreen";
 
 type focusT = {
-  from: boolean,
-  to: boolean,
-  expires: boolean,
+  from: boolean;
+  to: boolean;
+  expires: boolean;
 };
 
 export const LinkForm = () => {
@@ -59,7 +59,11 @@ export const LinkForm = () => {
   };
 
   const handleClick = async () => {
-    if (error.from.condition() || error.to.condition() || error.expires.condition()) {
+    if (
+      error.from.condition() ||
+      error.to.condition() ||
+      error.expires.condition()
+    ) {
       return;
     }
     await addLink(user.uid, from, to, expires, remarks);
@@ -71,7 +75,7 @@ export const LinkForm = () => {
   };
 
   return (
-    <Box bg={"#FFFFFF"} shadow="md" rounded="md" p={4} >
+    <Box bg={"#FFFFFF"} shadow="md" rounded="md" p={4}>
       <FormControl isInvalid={error.from.condition()} isRequired>
         <FormLabel htmlFor="from-input">From</FormLabel>
         <Input

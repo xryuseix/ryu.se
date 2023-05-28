@@ -8,12 +8,9 @@
     "strict": true,
     "target": "es2021",
     "esModuleInterop": true,
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals"]
   },
   "compileOnSave": true,
-  "include": [
-    "src",
-    "test",
-  ],
+  "include": ["src", "test"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

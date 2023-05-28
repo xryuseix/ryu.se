@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "deploy": "VITE_EMULATORS=false yarn build && firebase deploy --except functions",
     "test": "vitest run",
+    "format": "prettier --write functions src test",
     "emulators:start": "firebase emulators:start",
     "emulators:test": "firebase emulators:exec --only firestore 'yarn test'"
   },
