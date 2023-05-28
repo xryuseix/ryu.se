@@ -1,1 +1,1 @@
-export const Logs = () => <></>
+export const Logs = () => <></>;

@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { omit } from 'lodash-es';
+import { initializeApp } from "firebase/app";
+import { omit } from "lodash-es";
 import {
   DocumentData,
   QueryDocumentSnapshot,
@@ -9,7 +9,7 @@ import {
   serverTimestamp as _serverTimestamp,
   connectFirestoreEmulator,
   initializeFirestore,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 import {
   User,
   getAuth,
@@ -17,8 +17,8 @@ import {
   GoogleAuthProvider,
   signOut as _signOut,
   connectAuthEmulator,
-} from 'firebase/auth';
-import { WithId, Timestamp } from '@/../functions/src/shared/types/firebase';
+} from "firebase/auth";
+import { WithId, Timestamp } from "@/../functions/src/shared/types/firebase";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -31,18 +31,25 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-if (import.meta.env.VITE_EMULATORS === 'true') {
-  console.info('USE EMULATORS...');
-  connectAuthEmulator(getAuth(), 'http://localhost:9099');
-  const firestore = initializeFirestore(app, { experimentalForceLongPolling: true });
-  connectFirestoreEmulator(firestore, 'localhost', 8080);
+if (import.meta.env.VITE_EMULATORS === "true") {
+  console.info("USE EMULATORS...");
+  connectAuthEmulator(getAuth(), "http://localhost:9099");
+  const firestore = initializeFirestore(app, {
+    experimentalForceLongPolling: true,
+  });
+  connectFirestoreEmulator(firestore, "localhost", 8080);
 }
 
-const getConverter = <T extends DocumentData>(): FirestoreDataConverter<WithId<T>> => ({
+const getConverter = <T extends DocumentData>(): FirestoreDataConverter<
+  WithId<T>
+> => ({
   toFirestore: (data: PartialWithFieldValue<WithId<T>>): DocumentData => {
-    return omit(data, ['id']);
+    return omit(data, ["id"]);
   },
-  fromFirestore: (snapshot: QueryDocumentSnapshot<T>, options: SnapshotOptions): WithId<T> => {
+  fromFirestore: (
+    snapshot: QueryDocumentSnapshot<T>,
+    options: SnapshotOptions
+  ): WithId<T> => {
     return { id: snapshot.id, ...snapshot.data(options) };
   },
 });
@@ -56,6 +63,5 @@ const signInGoogleWithPopup = async () => {
 
 const signOut = async () => _signOut(getAuth());
 
-
 export type { User };
-export { getConverter, serverTimestamp, signInGoogleWithPopup, signOut }
+export { getConverter, serverTimestamp, signInGoogleWithPopup, signOut };

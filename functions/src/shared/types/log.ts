@@ -1,4 +1,4 @@
-import { WithId } from './firebase';
+import { WithId } from "./firebase";
 
 export type AccessLogDocumentData = {
   // accessedAt: Timestamp;

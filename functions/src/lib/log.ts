@@ -11,7 +11,7 @@ export const addLog = async (
   from: string,
   to: string | null
 ) => {
-  const clientIp = request.headers['fastly-client-ip'] ?? ""
+  const clientIp = request.headers["fastly-client-ip"] ?? "";
   const log: AccessLogDocumentData = {
     // accessedAt: Timest amp.fromDate(new Date()),
     userId: userId,

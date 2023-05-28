@@ -9,7 +9,10 @@ export const LoginScreen = () => {
       <button className={styles.button} onClick={signInWithGoogle}>
         Google Login (only Admin)
       </button>
-      <button className={styles.button} onClick={() => location.href="https://xryuseix.github.io"}>
+      <button
+        className={styles.button}
+        onClick={() => (location.href = "https://xryuseix.github.io")}
+      >
         xryuseix Profile Page (for Guest)
       </button>
     </div>
