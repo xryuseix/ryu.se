@@ -13,9 +13,9 @@ service cloud.firestore {
       allow write: if isOwn(uid);
     }
 
-    match /links/{messageId} {
-      allow read, create: if isLoggedIn();
-      allow update, delete: if isLoggedIn();
+    match /links/{linkId} {
+      allow create: if isOwn(request.resource.data.userId);
+      allow read, update, delete: if isOwn(resource.data.userId);
     }
   }
 }

@@ -16,7 +16,7 @@ export const Link = ({ link }: { link: LinkType }) => {
   const [changed, setChanged] = useState<boolean>(false);
   const [from, setFrom] = useState<string>(link.from);
   const [to, setTo] = useState<string>(link.to);
-  const [_modified, setModified] = useState<Timestamp>(link.modified);
+  const [modified, setModified] = useState<Timestamp>(link.modified);
   const [expires, setExpires] = useState<Timestamp | null>(link.expires);
   const [remarks, setRemarks] = useState<string | null>(link.remarks);
 
@@ -47,7 +47,7 @@ export const Link = ({ link }: { link: LinkType }) => {
     }
   };
 
-  const handleClick = () => {
+  const handleUpdate = () => {
     setModified(Timestamp.now());
     alert("TODO: implement");
   };
@@ -101,8 +101,11 @@ export const Link = ({ link }: { link: LinkType }) => {
         />
       </td>
       <td>
-        <button onClick={handleClick} disabled={!changed}>
+        <button onClick={handleUpdate} disabled={!changed}>
           更新
+        </button>
+        <button onClick={handleUpdate} disabled={!changed}>
+          削除
         </button>
       </td>
     </tr>

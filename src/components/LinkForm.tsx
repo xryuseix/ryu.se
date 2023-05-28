@@ -23,40 +23,43 @@ export const LinkForm = () => {
 
   return (
     <>
-      <input
-        aria-label="from-input"
-        type="text"
-        placeholder="ABC"
-        value={from}
-        required
-        onChange={(event) => setFrom(event.currentTarget.value)}
-      />
-      <input
-        aria-label="to-input"
-        type="text"
-        placeholder="https://example.com"
-        value={to}
-        required
-        onChange={(event) => setTo(event.currentTarget.value)}
-      />
-      <input
-        aria-label="expires-input"
-        type="datetime-local"
-        value={expires ? format(expires.toDate(), "yyyy-MM-dd HH:mm") : ""}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setExpires(Timestamp.fromDate(new Date(event.target.value)));
-        }}
-      />
-      <input
-        aria-label="remarks-input"
-        type="text"
-        placeholder="remarks"
-        value={remarks || ""}
-        onChange={(event) => setRemarks(event.currentTarget.value)}
-      />
-      <button onClick={handleClick} disabled={!from || !to}>
-        作成！
-      </button>
+      <div>
+        <input
+          aria-label="from-input"
+          type="text"
+          placeholder="ABC"
+          value={from}
+          required
+          onChange={(event) => setFrom(event.currentTarget.value)}
+        />
+        <input
+          aria-label="to-input"
+          type="text"
+          placeholder="https://example.com"
+          value={to}
+          required
+          onChange={(event) => setTo(event.currentTarget.value)}
+        />
+        <input
+          aria-label="expires-input"
+          type="datetime-local"
+          value={expires ? format(expires.toDate(), "yyyy-MM-dd HH:mm") : ""}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            setExpires(Timestamp.fromDate(new Date(event.target.value)));
+          }}
+        />
+        <input
+          aria-label="remarks-input"
+          type="text"
+          placeholder="remarks"
+          value={remarks || ""}
+          onChange={(event) => setRemarks(event.currentTarget.value)}
+        />
+        <button onClick={handleClick} disabled={!from || !to}>
+          作成！
+        </button>
+      </div>
+      {from && to && <code>{`https://ryuse.dev/${from} -> ${to}`}</code>}
     </>
   );
 };
