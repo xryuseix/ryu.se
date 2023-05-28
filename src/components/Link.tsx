@@ -1,17 +1,20 @@
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import { useUsers } from "@/contexts/UsersContext";
 import { LoadingScreen } from "./LoadingScreen";
 import { Link as LinkType } from "@/../functions/src/shared/types/link";
 import { Timestamp } from "firebase/firestore";
 import { useState, ChangeEvent } from "react";
 import { Tr, Td, Input, IconButton, Flex, Spacer } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, CopyIcon } from "@chakra-ui/icons";
+import { useToast } from "@chakra-ui/react";
+import { handleCopy } from "@/components/CopyToClipboard";
 
 export const Link = ({ link }: { link: LinkType }) => {
   const { usersById, loading } = useUsers();
   if (loading) return <LoadingScreen />;
 
   const user = usersById[link.id];
+  const toast = useToast();
   const fromDate = (date: Timestamp) =>
     format(date.toDate(), "yyyy-MM-dd HH:mm");
 
@@ -86,9 +89,6 @@ export const Link = ({ link }: { link: LinkType }) => {
         />
       </Td>
       <Td p={0}>
-        <Input value={fromDate(link.modified)} p={0} disabled />
-      </Td>
-      <Td p={0}>
         <Input
           type="datetime-local"
           placeholder={link.expires ? fromDate(link.expires) : ""}
@@ -100,7 +100,16 @@ export const Link = ({ link }: { link: LinkType }) => {
         />
       </Td>
       <Td p={0}>
+        <Input value={fromDate(link.modified)} p={0} disabled />
+      </Td>
+      <Td p={0}>
         <Flex>
+          <Spacer />
+          <IconButton
+            aria-label="copy"
+            icon={<CopyIcon />}
+            onClick={() => handleCopy(toast, link.to)}
+          />
           <Spacer />
           <IconButton
             aria-label="edit"

@@ -24,9 +24,9 @@ export const Links = () => {
             <Th minW={150}>Created</Th>
             <Th minW={100}>From</Th>
             <Th minW={200}>To</Th>
-            <Th minW={150}>Updated</Th>
             <Th minW={150}>Expires</Th>
-            <Th minW={100}>Actions</Th>
+            <Th minW={150}>Modified</Th>
+            <Th minW={150}>Actions</Th>
             <Th minW={100}>Remark</Th>
           </Tr>
         </Thead>
