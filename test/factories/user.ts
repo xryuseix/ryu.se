@@ -7,4 +7,5 @@ export const userFactory = Factory.define<User>(({ sequence }) => ({
   createdAt: Timestamp.fromDate(new Date()),
   name: `テストユーザー${sequence}`,
   email: "abc@example.com",
+  shortId: sequence.toString(),
 }));
