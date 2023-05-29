@@ -1,7 +1,6 @@
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions/v2";
 import { AccessLogDocumentData } from "../shared/types/log";
-// import { Timestamp } from "../shared/types/firebase";
 
 const logsCollentionRef = admin.firestore().collection("logs");
 
@@ -13,7 +12,7 @@ export const addLog = async (
 ) => {
   const clientIp = request.headers["fastly-client-ip"] ?? "";
   const log: AccessLogDocumentData = {
-    // accessedAt: Timest amp.fromDate(new Date()),
+    accessedAt: new Date(),
     userId: userId,
     from: from,
     to: to,

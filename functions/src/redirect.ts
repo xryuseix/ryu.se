@@ -1,9 +1,7 @@
-// import * as logger from "firebase-functions/logger";
 import * as functions from "firebase-functions/v2";
 import { UserDocumentData } from "./shared/types/user";
 import { LinkDocumentData } from "./shared/types/link";
-import { getCollectionData, getDocumentData } from "./lib/firebase";
-import { userRef } from "./lib/user";
+import { CollectionReference, db, getCollectionData } from "./lib/firebase";
 import { linksQuery } from "./lib/link";
 import path from "path";
 import { addLog } from "./lib/log";
@@ -23,31 +21,42 @@ export const main = functions.https.onRequest(
     }
 
     // https://ryuse.dev/:uId/:lId
-    const _uId = path.dirname(request.path).replaceAll("/", "");
-    // fix: admin以外のuseridを短くする
-    // TODO: userIDの存在チェック
-    // expires check
-    const uId = _uId === "" ? process.env.ADMIN_GOOGLE_USER_ID ?? "" : _uId;
+    const shortId = path.dirname(request.path).replaceAll("/", "");
+    let uId: string | undefined = undefined;
     const lId = path.basename(request.path);
+    if (shortId !== "") {
+      const usersQuery = (
+        db.collection("users") as CollectionReference<UserDocumentData>
+      ).where("shortId", "==", shortId);
+      const users = await getCollectionData<UserDocumentData>(usersQuery);
 
-    const user = await getDocumentData<UserDocumentData>(userRef(uId));
-
-    // get link document data with linkQuery
-    const links = await getCollectionData<LinkDocumentData>(
-      linksQuery(user.id, lId)
-    );
-
-    if (!links || links.length == 0) {
-      response.send(`link ${lId} is not found`);
-      response.status(404);
-      addLog(request, uId, lId, null);
+      if (users.length == 0) {
+        response.status(404);
+        response.send(`user ${shortId} is not found.`);
+        addLog(request, null, lId, null);
+        return;
+      }
+      uId = users[0].id;
+    } else {
+      uId = process.env.ADMIN_GOOGLE_USER_ID ?? "";
     }
-    const link:LinkDocumentData = links[0];
 
-    if(link.expires && link.expires.toMillis() < Date.now()){
-      response.send(`link ${lId} is expired`);
-      response.status(410);
+    const links = await getCollectionData<LinkDocumentData>(
+      linksQuery(uId, lId)
+    );
+    if (!links || links.length == 0) {
+      response.status(404);
+      response.send(`link ${lId} is not found`);
       addLog(request, uId, lId, null);
+      return;
+    }
+
+    const link: LinkDocumentData = links[0];
+    if (link.expires && link.expires.toMillis() < Date.now()) {
+      response.status(410);
+      response.send(`link ${lId} is expired`);
+      addLog(request, uId, lId, null);
+      return;
     }
 
     const to = link.to;

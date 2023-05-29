@@ -1,6 +1,5 @@
-import * as admin from "firebase-admin";
+import { db } from "./lib/firebase";
 
-admin.initializeApp();
-admin.firestore().settings({ timestampsInSnapshot: true });
+db.settings({ timestampsInSnapshot: true });
 
 export { main } from "./redirect";

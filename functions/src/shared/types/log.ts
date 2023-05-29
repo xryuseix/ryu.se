@@ -1,7 +1,7 @@
 import { WithId } from "./firebase";
 
 export type AccessLogDocumentData = {
-  // accessedAt: Timestamp;
+  accessedAt: Date;
   userId: string | null;
   from: string;
   to: string | null;
