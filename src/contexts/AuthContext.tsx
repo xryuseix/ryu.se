@@ -28,7 +28,10 @@ export const useAuth = () => {
     try {
       const { user } = await signInGoogleWithPopup();
       const { isExist } = await getUser(user.uid);
-      if (!isExist) await addUser(user);
+      if (!isExist) {
+        const success = await addUser(user);
+        if (!success) throw new Error("Failed to add user");
+      }
     } catch (e) {
       console.error(e);
       await signOut();
