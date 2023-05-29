@@ -13,7 +13,8 @@ import { Tooltip } from "@chakra-ui/react";
 import { DeleteModal } from "./DeleteModal";
 
 export const Link = ({ link }: { link: LinkType }) => {
-  const { loading } = useUsers();
+  const { usersById, loading } = useUsers();
+  const sender = usersById[link.userId];
   if (loading) return <LoadingScreen />;
 
   const toast = useToast();
@@ -112,7 +113,7 @@ export const Link = ({ link }: { link: LinkType }) => {
             <IconButton
               aria-label="copy"
               icon={<CopyIcon />}
-              onClick={() => handleCopy(toast, `https://ryuse.dev/${from}`)}
+              onClick={() => handleCopy(toast, `https://ryuse.dev/${sender?.shortId}/${from}`)}
             />
           </Tooltip>
           <Spacer />
