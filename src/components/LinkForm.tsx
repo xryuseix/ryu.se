@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { useState, ChangeEvent } from "react";
 import { addLink } from "@/lib/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUsers } from "@/contexts/UsersContext";
 import { Timestamp } from "firebase/firestore";
 import {
   Box,
@@ -21,7 +22,10 @@ type focusT = {
 
 export const LinkForm = () => {
   const { user } = useAuth();
-  if (!user) return <LoginScreen />;
+  if(!user) return <LoginScreen />;
+  const { usersById, loading } = useUsers();
+  const sender = usersById[user?.uid || ""];
+  
 
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("https://");
@@ -144,7 +148,7 @@ export const LinkForm = () => {
       </Button>
 
       <Box mt={6}>
-        <code>{`https://ryuse.dev/${from} -> ${to}`}</code>
+        <code>{`https://ryuse.dev/${sender?.shortId}/${from} -> ${to}`}</code>
       </Box>
     </Box>
   );
