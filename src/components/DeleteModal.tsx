@@ -26,7 +26,7 @@ export const DeleteModal = (props: PropsT) => {
         <ModalCloseButton />
         <ModalBody>
           Do you really want to remove the following link?
-          <br /> {`https://ryuse.dev/${props.from} → ${props.to}`}
+          <br /> {`https://l.ryuse.dev/${props.from} → ${props.to}`}
         </ModalBody>
         <ModalFooter>
           <Button

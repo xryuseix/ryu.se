@@ -2,6 +2,6 @@
 
 # ryu.se URL shortener
 
-[ryuse.dev](ryuse.dev)
+[https://l.ryuse.dev](https://l.ryuse.dev)
 
 ![toppage](image.png)

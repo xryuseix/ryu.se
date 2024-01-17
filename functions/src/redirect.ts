@@ -16,11 +16,11 @@ export const main = functions.https.onRequest(
   async (request: functions.https.Request, response) => {
     if (request.path == "/") {
       response.status(301);
-      response.redirect("https://ryuse.dev");
+      response.redirect("https://l.ryuse.dev");
       return;
     }
 
-    // https://ryuse.dev/:uId/:lId
+    // https://l.ryuse.dev/:uId/:lId
     const shortId = path.dirname(request.path).replaceAll("/", "");
     let uId: string | undefined = undefined;
     const lId = path.basename(request.path);

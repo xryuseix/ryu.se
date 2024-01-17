@@ -14,8 +14,11 @@ import { DeleteModal } from "./DeleteModal";
 
 export const Link = ({ link }: { link: LinkType }) => {
   const { usersById, loading } = useUsers();
-  const sender = usersById[link.userId];
   if (loading) return <LoadingScreen />;
+
+  const sender = usersById[link.userId];
+  // for admin
+  const shortId = sender?.shortId === "t" ? "" : `${sender?.shortId}/`;
 
   const toast = useToast();
   const fromDate = (date: Timestamp) =>
@@ -113,7 +116,9 @@ export const Link = ({ link }: { link: LinkType }) => {
             <IconButton
               aria-label="copy"
               icon={<CopyIcon />}
-              onClick={() => handleCopy(toast, `https://ryuse.dev/${sender?.shortId}/${from}`)}
+              onClick={() =>
+                handleCopy(toast, `https://l.ryuse.dev/${shortId}${from}`)
+              }
             />
           </Tooltip>
           <Spacer />

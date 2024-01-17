@@ -1,7 +1,7 @@
 import * as admin from "firebase-admin";
 import type { WithId } from "../shared/types/firebase";
 
-export const app = admin.initializeApp()
+export const app = admin.initializeApp();
 export const db = admin.firestore(app);
 export const FieldPath = admin.firestore.FieldPath;
 export type Timestamp = admin.firestore.Timestamp;

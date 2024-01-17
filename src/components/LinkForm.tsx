@@ -22,10 +22,11 @@ type focusT = {
 
 export const LinkForm = () => {
   const { user } = useAuth();
-  if(!user) return <LoginScreen />;
-  const { usersById, loading } = useUsers();
+  if (!user) return <LoginScreen />;
+  const { usersById } = useUsers();
   const sender = usersById[user?.uid || ""];
-  
+  // for admin
+  const shortId = sender?.shortId === "t" ? "" : `${sender?.shortId}/`;
 
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("https://");
@@ -148,7 +149,7 @@ export const LinkForm = () => {
       </Button>
 
       <Box mt={6}>
-        <code>{`https://ryuse.dev/${sender?.shortId}/${from} -> ${to}`}</code>
+        <code>{`https://l.ryuse.dev/${shortId}${from} -> ${to}`}</code>
       </Box>
     </Box>
   );
